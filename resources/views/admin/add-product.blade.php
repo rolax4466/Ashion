@@ -97,97 +97,45 @@
             </div>
             <div class="row tm-edit-product-row">
               <div class="col-xl-6 col-lg-6 col-md-12">
-                <form action="" class="tm-edit-product-form">
+                <form action="{{ route('admin.add-product') }}" method="POST" class="tm-edit-product-form" enctype="multipart/form-data">
+                  @csrf
                   <div class="form-group mb-3">
-                    <label
-                      for="name"
-                      >Product Name
-                    </label>
-                    <input
-                      id="name"
-                      name="name"
-                      type="text"
-                      class="form-control validate"
-                      required
-                    />
+                      <label for="name">Product Name</label>
+                      <input id="name" name="name" type="text" class="form-control validate" required>
                   </div>
                   <div class="form-group mb-3">
-                    <label
-                      for="description"
-                      >Description</label
-                    >
-                    <textarea
-                      class="form-control validate"
-                      rows="3"
-                      required
-                    ></textarea>
+                      <label for="description">Description</label>
+                      <textarea class="form-control validate" rows="3" name="description" required></textarea>
                   </div>
                   <div class="form-group mb-3">
-                    <label
-                      for="category"
-                      >Category</label
-                    >
-                    <select
-                      class="custom-select tm-select-accounts"
-                      id="category"
-                    >
-                      <option selected>Select category</option>
-                      <option value="1">New Arrival</option>
-                      <option value="2">Most Popular</option>
-                      <option value="3">Trending</option>
-                    </select>
+                      <label for="category">Category</label>
+                      <select class="custom-select tm-select-accounts" id="category" name="category_id">
+                          <option selected disabled>Select category</option>
+                          <option value="1">Kids</option>
+                          <option value="2">Men</option>
+                          <option value="3">Women</option>
+                      </select>
                   </div>
                   <div class="row">
                       <div class="form-group mb-3 col-xs-12 col-sm-6">
-                          <label
-                            for="expire_date"
-                            >Expire Date
-                          </label>
-                          <input
-                            id="expire_date"
-                            name="expire_date"
-                            type="text"
-                            class="form-control validate"
-                            data-large-mode="true"
-                          />
-                        </div>
-                        <div class="form-group mb-3 col-xs-12 col-sm-6">
-                          <label
-                            for="stock"
-                            >Units In Stock
-                          </label>
-                          <input
-                            id="stock"
-                            name="stock"
-                            type="text"
-                            class="form-control validate"
-                            required
-                          />
-                        </div>
+                          <label for="stock">Units In Stock</label>
+                          <input id="stock" name="stock_quantity" type="number" class="form-control validate" required>
+                      </div>
                   </div>
-                  
-              </div>
-              <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
-                <div class="tm-product-img-dummy mx-auto">
-                  <i
-                    class="fas fa-cloud-upload-alt tm-upload-icon"
-                    onclick="document.getElementById('fileInput').click();"
-                  ></i>
-                </div>
-                <div class="custom-file mt-3 mb-3">
-                  <input id="fileInput" type="file" style="display:none;" />
-                  <input
-                    type="button"
-                    class="btn btn-primary btn-block mx-auto"
-                    value="UPLOAD PRODUCT IMAGE"
-                    onclick="document.getElementById('fileInput').click();"
-                  />
-                </div>
-              </div>
-              <div class="col-12">
-                <button type="submit" class="btn btn-primary btn-block text-uppercase">Add Product Now</button>
-              </div>
-            </form>
+                  <div class="col-xl-6 col-lg-6 col-md-12 mb-4">
+                      <div class="tm-product-img-dummy mx-auto">
+                          <i class="fas fa-cloud-upload-alt tm-upload-icon" onclick="document.getElementById('fileInput').click();"></i>
+                      </div>
+                      <div class="custom-file mt-3 mb-3">
+                          <input id="fileInput" type="file" style="display:none;" name="image_url">
+                          <input type="button" class="btn btn-primary" value="UPLOAD PRODUCT IMAGE" onclick="document.getElementById('fileInput').click();">
+                      </div>
+                  </div>
+                  <div class="col-12">
+                      <button type="submit" class="btn btn-primary btn-block text-uppercase">Add Product Now</button>
+                  </div>
+              </form>
+              
             </div>
           </div>
         </div>

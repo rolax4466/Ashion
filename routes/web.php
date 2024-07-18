@@ -2,8 +2,11 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\ProductController;
 
+// Frontend routes
 Route::get('/', [FrontendController::class, 'index'])->name('index');
 Route::get('/shop', function () {
     return view('shop');
@@ -11,15 +14,12 @@ Route::get('/shop', function () {
 Route::get('/product-details', function () {
     return View::make('product-details');
 })->name('product-details');
-
 Route::get('/shop-cart', function () {
     return View::make('shop-cart');
 })->name('shop-cart');
-
 Route::get('/checkout', function () {
     return View::make('checkout');
 })->name('checkout');
-
 Route::get('/blog-details', function () {
     return View::make('blog-details');
 })->name('blog-details');
@@ -36,26 +36,41 @@ Route::get('partials/register', function () {
     return View::make('partials.register');
 })->name('partials.register');
 
-
-//admin
-// Admin
+// Admin routes
 Route::prefix('admin')->group(function () {
+
+    // Dashboard
     Route::get('/', [AdminController::class, 'index'])->name('admin.index');
+
+    // Authentication
+    Route::get('/login', function () {
+        return view('admin.login');
+    })->name('admin.login');
+
+    // Accounts
+    Route::get('/accounts', function () {
+        return view('admin.accounts');
+    })->name('admin.accounts');
+
+    // Add Product Form
+    Route::get('/add-product', function () {
+        return view('admin.add-product');
+    })->name('admin.add-product');
+
+    // Add Category Form
+    Route::get('/add-category', function () {
+        return view('admin.add-category');
+    })->name('admin.add-category');
+
+    // Display Products
+    Route::get('/products', [ProductController::class, 'index'])->name('admin.products');
+
+    // Handle Product Form Submission
+    Route::post('/add-product', [ProductController::class, 'store'])->name('add-product');
+
+    // Handle Category Form Submission
+    Route::post('/add-category', [CategoryController::class, 'store'])->name('add-category');
+
 });
-Route::get('admin/login', function () {
-    return View::make('admin.login');
-})->name('admin.login');
-Route::get('admin/products', function () {
-    return View::make('admin.products');
-})->name('admin.products');
-Route::get('admin/accounts', function () {
-    return View::make('admin.accounts');
-})->name('admin.accounts');
-Route::get('admin/add-product', function () {
-    return View::make('admin.add-product');
-})->name('admin.add-product');
-
-
-
 
 
