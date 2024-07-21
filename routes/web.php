@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\TestController;
 
 // Frontend routes
 Route::get('/', [FrontendController::class, 'index'])->name('index');
@@ -70,7 +71,12 @@ Route::prefix('admin')->group(function () {
 
     // Handle Category Form Submission
     Route::post('/add-category', [CategoryController::class, 'store'])->name('add-category');
+    Route::get('admin/admin/edit-category/{id}', [CategoryController::class, 'edit'])->name('admin.edit-category');
+    Route::post('admin/admin/edit-category/{id}', [CategoryController::class, 'update'])->name('admin.update-category');
+    
 
 });
 
 
+//test connection 
+Route::get('/test-db-connection', [App\Http\Controllers\TestController::class, 'testConnection']);

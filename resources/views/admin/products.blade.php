@@ -115,10 +115,16 @@
                                 <tr>
                                     <td class="tm-product-name">{{ $category->name }}</td>
                                     <td class="text-center">
-                                        <a href="#" class="tm-product-delete-link">
-                                            <i class="far fa-trash-alt tm-product-delete-icon"></i>
-                                        </a>
-                                    </td>
+                                      <!-- Edit link -->
+                                      <a href="{{ route('admin.edit-category', $category->id) }}" class="tm-product-edit-link">
+                                          <i class="far fa-edit tm-product-edit-icon"></i>
+                                      </a>
+                                      
+                                      <!-- Delete link -->
+                                      <a href="#" class="tm-product-delete-link">
+                                          <i class="far fa-trash-alt tm-product-delete-icon"></i>
+                                      </a>
+                                  </td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -134,7 +140,7 @@
         <div class="col-12 font-weight-light">
             <p class="text-center text-white mb-0 px-4 small">
                 Copyright &copy; <b>2023</b> All rights reserved. <br>
-                Design: <a rel="nofollow noopener" href="https://templatemo.com" class="tm-footer-link">TemplateMo</a>
+                Design: <a rel="nofollow noopener" href="https://templatemo.com" class="tm-footer-link"></a>
             </p>
         </div>
     </footer>

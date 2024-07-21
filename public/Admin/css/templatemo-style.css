@@ -574,6 +574,14 @@ input[type="checkbox"]:focus {
 .tm-footer-link:focus {
   color: #aacbea;
 }
+.breadcrumb {
+  background-color: transparent;
+  padding: 0;
+  margin-bottom: 1rem;
+}
+.breadcrumb-item + .breadcrumb-item::before {
+  content: ">";
+}
 
 @media (min-width: 1200px) {
   .navbar-expand-xl .navbar-nav .nav-link {
