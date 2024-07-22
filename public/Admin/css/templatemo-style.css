@@ -582,6 +582,10 @@ input[type="checkbox"]:focus {
 .breadcrumb-item + .breadcrumb-item::before {
   content: ">";
 }
+.input-group-text {
+  background-color: #f8f9fa; /* Matches Bootstrap's default background color */
+}
+
 
 @media (min-width: 1200px) {
   .navbar-expand-xl .navbar-nav .nav-link {

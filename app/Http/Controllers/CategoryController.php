@@ -33,7 +33,12 @@ class CategoryController extends Controller
                 'description' => 'required|string',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Image file validation (nullable if not required)
             ]);
-
+            //check if there is an existing category with same name
+            $existingCategory=Category::where('name',$categoryData['name'])->first();
+            if($existingCategory){
+                return redirect()->back()->with('error','category already exists');
+            }
+             
             // Handle file upload
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
@@ -51,9 +56,11 @@ class CategoryController extends Controller
                 $categoryData['image_url'] = $imagePath;
             }
 
-            // Create the category with validated data
-            Category::create($categoryData);
 
+            // Create the category with validated data
+                Category::create($categoryData);
+            
+            
             // Redirect to the admin products page with a success message
             return redirect()->route('admin.products')->with('success', 'Category created successfully');
 
@@ -126,8 +133,28 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
-    }
+
+     public function destroy(string $id)
+     {
+         try {
+             // Find the category to be deleted
+             $category = Category::findOrFail($id);
+ 
+             // Check if the category has an associated image
+             if ($category->image_url && Storage::disk('public')->exists($category->image_url)) {
+                 // Delete the image from storage
+                 Storage::disk('public')->delete($category->image_url);
+             }
+ 
+             // Delete the category record from the database
+             $category->delete(); // Make sure this is called on the instance
+ 
+             // Redirect to the products page with a success message
+             return redirect()->route('admin.products')->with('success', 'Category deleted successfully!');
+ 
+         } catch (\Exception $e) {
+             // Redirect back with an error message if something goes wrong
+             return redirect()->route('admin.products')->with('error', 'An error occurred while deleting the category: ' . $e->getMessage());
+         }
+     }
 }

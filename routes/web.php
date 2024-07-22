@@ -63,17 +63,18 @@ Route::prefix('admin')->group(function () {
         return view('admin.add-category');
     })->name('admin.add-category');
 
-    // Display Products
-    Route::get('/products', [ProductController::class, 'index'])->name('admin.products');
-
-    // Handle Product Form Submission
-    Route::post('/add-product', [ProductController::class, 'store'])->name('add-product');
+   
 
     // Handle Category Form Submission
     Route::post('/add-category', [CategoryController::class, 'store'])->name('add-category');
-    Route::get('admin/admin/edit-category/{id}', [CategoryController::class, 'edit'])->name('admin.edit-category');
-    Route::post('admin/admin/edit-category/{id}', [CategoryController::class, 'update'])->name('admin.update-category');
-    
+    Route::get('/edit-category/{id}', [CategoryController::class, 'edit'])->name('admin.edit-category');
+    Route::post('/edit-category/{id}', [CategoryController::class, 'update'])->name('admin.update-category');
+    Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
+
+ // Display Products
+ Route::get('/products', [ProductController::class, 'index'])->name('admin.products');
+ Route::get('/add-product', [ProductController::class, 'create'])->name('admin.add-product');
+ Route::post('/add-product', [ProductController::class, 'store'])->name('add-product');
 
 });
 

@@ -115,18 +115,24 @@
                                 <tr>
                                     <td class="tm-product-name">{{ $category->name }}</td>
                                     <td class="text-center">
-                                      <!-- Edit link -->
-                                      <a href="{{ route('admin.edit-category', $category->id) }}" class="tm-product-edit-link">
-                                          <i class="far fa-edit tm-product-edit-icon"></i>
-                                      </a>
-                                      
-                                      <!-- Delete link -->
-                                      <a href="#" class="tm-product-delete-link">
-                                          <i class="far fa-trash-alt tm-product-delete-icon"></i>
-                                      </a>
-                                  </td>
+                                        <!-- Edit link -->
+                                        <a href="{{ route('admin.edit-category', $category->id) }}" class="tm-product-edit-link">
+                                            <i class="far fa-edit tm-product-edit-icon"></i>
+                                        </a>
+                                        
+                                        <!-- Delete form -->
+                                        <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this category?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-link tm-product-delete-link" style="background: none; border: none; padding: 0;">
+                                                <i class="far fa-trash-alt tm-product-delete-icon"></i>
+                                            </button>
+                                        </form>
+                                    </td>
                                 </tr>
                                 @endforeach
+                                
+                                
                             </tbody>
                         </table>
                     </div>

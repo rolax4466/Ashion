@@ -4,17 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
     use HasFactory;
+
+    // Define the fillable attributes for mass assignment
+    protected $fillable = [
+        'name',
+        'description',
+        'image_url' // If categories have images
+    ];
+
+    // Explicitly specify the table name if it doesn't match the model name in StudlyCase
     protected $table = 'categories';
 
-
-    protected $fillable = ['name', 'description', 'image_url'];
-
-   
+    // Define the relationship between Category and Product
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }
-
-
