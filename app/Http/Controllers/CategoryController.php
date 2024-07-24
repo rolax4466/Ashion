@@ -33,37 +33,40 @@ class CategoryController extends Controller
                 'description' => 'required|string',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Image file validation (nullable if not required)
             ]);
-            //check if there is an existing category with same name
-            $existingCategory=Category::where('name',$categoryData['name'])->first();
-            if($existingCategory){
-                return redirect()->back()->with('error','category already exists');
+    
+            // Check if there is an existing category with the same name
+            $existingCategory = Category::where('name', $categoryData['name'])->first();
+            if ($existingCategory) {
+                return redirect()->back()->with('error', 'Category already exists');
             }
-             
+    
             // Handle file upload
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
-
+    
                 // Ensure the directory exists
-                $directory = 'public/category-images';
+                $directory = '/category-images';
                 if (!Storage::exists($directory)) {
                     Storage::makeDirectory($directory);
                 }
-
-                // Store file in 'storage/app/public/category-images' folder
-                $imagePath = $image->store('category-images', 'public');
-
+    
+                // Get the number of existing images in the directory
+                $files = Storage::files($directory);
+                $imageCount = count($files) + 1;
+                $imageName = 'categoryimg' . $imageCount . '.' . $image->getClientOriginalExtension();
+    
+                // Store the file in 'storage/app/public/category-images' folder with the new name
+                $imagePath = $image->storeAs('category-images', $imageName, 'public');
+    
                 // Set image URL in category data
                 $categoryData['image_url'] = $imagePath;
             }
-
-
+    
             // Create the category with validated data
-                Category::create($categoryData);
-            
-            
+            Category::create($categoryData);
+    
             // Redirect to the admin products page with a success message
             return redirect()->route('admin.products')->with('success', 'Category created successfully');
-
         } catch (ValidationException $e) {
             // Handle validation errors
             return redirect()->back()->withErrors($e->validator)->withInput();
@@ -72,6 +75,7 @@ class CategoryController extends Controller
             return redirect()->back()->with('error', 'An error occurred while creating the category: ' . $e->getMessage());
         }
     }
+    
 
     /**
      * Show the form for editing the specified resource.
@@ -86,50 +90,51 @@ class CategoryController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
-    {
-        try {
-            $category = Category::findOrFail($id);
+{
+    try {
+        $category = Category::findOrFail($id);
 
-            // Validate the request
-            $request->validate([
-                'name' => 'required|string|max:255',
-                'description' => 'required|string',
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            ]);
+        // Validate the request
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
 
-            // Update the category
-            $category->name = $request->input('name');
-            $category->description = $request->input('description');
+        // Update the category
+        $category->name = $request->input('name');
+        $category->description = $request->input('description');
 
-            if ($request->hasFile('image')) {
-                // Delete the old image if it exists
-                if ($category->image_url && Storage::disk('public')->exists($category->image_url)) {
-                    Storage::disk('public')->delete($category->image_url);
-                }
-
-                // Ensure the directory exists
-                $directory = 'public/category-images';
-                if (!Storage::exists($directory)) {
-                    Storage::makeDirectory($directory);
-                }
-
-                // Store the new image
-                $imagePath = $request->file('image')->store('category-images', 'public');
-                $category->image_url = $imagePath;
+        if ($request->hasFile('image')) {
+            // Delete the old image if it exists
+            if ($category->image_url && Storage::disk('public')->exists($category->image_url)) {
+                Storage::disk('public')->delete($category->image_url);
             }
 
-            $category->save();
+            // Ensure the directory exists
+            $directory = 'category-images';
+            if (!Storage::exists($directory)) {
+                Storage::makeDirectory($directory);
+            }
 
-            // Redirect to the product page with a success message
-            return redirect()->route('admin.products')->with('success', 'Category updated successfully!');
-        } catch (ValidationException $e) {
-            // Handle validation errors
-            return redirect()->route('admin.edit-category', $id)->withErrors($e->validator)->withInput();
-        } catch (\Exception $e) {
-            // Handle the error
-            return redirect()->route('admin.edit-category', $id)->with('error', 'An error occurred while updating the category: ' . $e->getMessage());
+            // Store the new image
+            $imagePath = $request->file('image')->store($directory, 'public');
+            $category->image_url = $imagePath;
         }
+
+        $category->save();
+
+        // Redirect to the product page with a success message
+        return redirect()->route('admin.products')->with('success', 'Category updated successfully!');
+    } catch (ValidationException $e) {
+        // Handle validation errors
+        return redirect()->route('admin.edit-category', $id)->withErrors($e->validator)->withInput();
+    } catch (\Exception $e) {
+        // Handle the error
+        return redirect()->route('admin.edit-category', $id)->with('error', 'An error occurred while updating the category: ' . $e->getMessage());
     }
+}
+
     /**
      * Remove the specified resource from storage.
      */
@@ -145,10 +150,14 @@ class CategoryController extends Controller
                  // Delete the image from storage
                  Storage::disk('public')->delete($category->image_url);
              }
+              // Delete related products
+            Product::where('category_id', $id)->delete();
  
              // Delete the category record from the database
              $category->delete(); // Make sure this is called on the instance
- 
+          
+
+
              // Redirect to the products page with a success message
              return redirect()->route('admin.products')->with('success', 'Category deleted successfully!');
  

@@ -53,28 +53,24 @@ Route::prefix('admin')->group(function () {
         return view('admin.accounts');
     })->name('admin.accounts');
 
-    // Add Product Form
-    Route::get('/add-product', function () {
-        return view('admin.add-product');
-    })->name('admin.add-product');
+// Route to display the form for adding a new category
+Route::get('/add-category', [CategoryController::class, 'create'])->name('admin.create-category');
 
-    // Add Category Form
-    Route::get('/add-category', function () {
-        return view('admin.add-category');
-    })->name('admin.add-category');
+// Route to handle the form submission for adding a new category
+Route::post('/add-category', [CategoryController::class, 'store'])->name('admin.add-category');
 
-   
-
-    // Handle Category Form Submission
-    Route::post('/add-category', [CategoryController::class, 'store'])->name('add-category');
-    Route::get('/edit-category/{id}', [CategoryController::class, 'edit'])->name('admin.edit-category');
-    Route::post('/edit-category/{id}', [CategoryController::class, 'update'])->name('admin.update-category');
-    Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
+Route::get('/edit-category/{id}', [CategoryController::class, 'edit'])->name('admin.edit-category');
+// Update the category
+Route::put('/edit-category/{id}', [CategoryController::class, 'update'])->name('admin.update-category');
+// Delete a category
+Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
 
  // Display Products
  Route::get('/products', [ProductController::class, 'index'])->name('admin.products');
  Route::get('/add-product', [ProductController::class, 'create'])->name('admin.add-product');
  Route::post('/add-product', [ProductController::class, 'store'])->name('add-product');
+ Route::get('/admin/edit-product/{id}', [ProductController::class, 'edit'])->name('admin.edit-product');
+ Route::put('/admin/edit-product/{id}', [ProductController::class, 'update']);
 
 });
 

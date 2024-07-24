@@ -87,14 +87,27 @@
                                     <td>{{ $product->description }}</td>
                                     <td>{{ $product->price }}</td>
                                     <td>{{ $product->stock_quantity }}</td>
-                                    <td><img src="{{ $product->image_url }}" alt="Product Image" style="width:100px;"></td>
                                     <td>
+                                        @if($product->image_url)
+                                            <img src="{{ Storage::url($product->image_url) }}" alt="Product Image" style="width:100px; height:auto;">
+                                        @else
+                                            <span>No Image</span>
+                                        @endif
+                                    </td>
+                                    <td> <a href="{{ route('admin.edit-product', $product->id) }}" class="btn btn-warning btn-sm">
+                                        <i class="far fa-edit tm-product-edit-icon"></i>
+                                    </a>
+                                </td>
+                                    <td>
+                                       
                                         <a href="#" class="tm-product-delete-link">
                                             <i class="far fa-trash-alt tm-product-delete-icon"></i>
                                         </a>
                                     </td>
                                 </tr>
-                                @endforeach
+                            @endforeach
+                            
+                                
                             </tbody>
                         </table>
                     </div>

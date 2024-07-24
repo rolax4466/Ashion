@@ -121,10 +121,10 @@
                 </div>
                 <div class="row">
                   <div class="form-group mb-3 col-xs-12 col-sm-6">
-                    <label for="stock">Units In Stock</label>
-                    <input id="stock" name="stock_quantity" type="number" class="form-control validate" required>
+                      <label for="stock">Units In Stock</label>
+                      <input id="stock" name="stock_quantity" type="number" class="form-control validate" required>
                   </div>
-                </div>
+              </div>
                 <div class="row">
                   <div class="form-group mb-3 col-xs-12 col-sm-6">
                     <label for="price">Price (KSh)</label>
@@ -138,12 +138,12 @@
                 </div>
                 <div class="form-group mb-3">
                   <label for="fileInput">Product Image</label>
-                  <input id="fileInput" type="file" name="image_url" accept="image/*" onchange="previewImage(event)" style="display:none;">
+                  <input id="fileInput" type="file" name="image" accept="image/*" onchange="previewImage(event)" style="display:none;">
                   <input type="button" class="btn btn-primary" value="UPLOAD PRODUCT IMAGE" onclick="document.getElementById('fileInput').click();">
                   <div class="mt-3">
-                    <img id="imagePreview" src="#" alt="Image Preview" style="max-width: 100%; height: auto; display: none;">
+                      <img id="imagePreview" src="#" alt="Image Preview" style="max-width: 100%; height: auto; display: none;">
                   </div>
-                </div>
+              </div>
                 <div class="col-12">
                   <button type="submit" class="btn btn-primary btn-block text-uppercase">Add Product Now</button>
                 </div>

@@ -99,7 +99,7 @@
                     <div class="row tm-edit-product-row">
                         <div class="col-xl-6 col-lg-6 col-md-12">
                             <!-- Form for adding a new category -->
-                            <form action="{{ route('add-category') }}" method="POST" enctype="multipart/form-data" class="tm-edit-product-form">
+                            <form action="{{ route('admin.add-category') }}" method="POST" enctype="multipart/form-data" class="add-category-form">
                                 @csrf
                                 <div class="form-group mb-3">
                                     <label for="name">Category Name</label>
@@ -124,6 +124,7 @@
                                     <button type="submit" class="btn btn-primary btn-block text-uppercase">Add Category Now</button>
                                 </div>
                             </form>
+                            
                             <script>
                                 function previewImage(event) {
                                     const reader = new FileReader();

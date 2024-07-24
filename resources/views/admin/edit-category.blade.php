@@ -37,7 +37,7 @@
                         <div class="col-xl-6 col-lg-6 col-md-12">
                             <form action="{{ route('admin.edit-category', $category->id) }}" method="POST" class="tm-edit-product-form" enctype="multipart/form-data">
                                 @csrf
-                                @method('POST')
+                                @method('PUT')
 
                                 <div class="form-group mb-3">
                                     <label for="name">Category Name</label>
